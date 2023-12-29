@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Beer Recipes</title>
+</head>
+<body>
+    <h1>BrewDog Beer Recipes</h1>
+
+    <table class="table table-striped" >
+        <thead>
+            <th scope ="col">Beer ID</th>
+            <th scope ="col">Beer Name</th>
+            <th scope ="col">Beer Tagline</th>
+            <th scope ="col">Beer First Brewed date</th>
+            <th scope ="col">Image</th>
+            <th scope ="col">ABV</th>
+            <th scope ="col">IBU</th>
+            <th scope ="col">Target_fg</th>
+            <th scope ="col">Target_og</th>
+            <th scope ="col">EBC</th>
+            <th scope ="col">SRM</th>
+            <th scope ="col">pH</th>
+            <th scope ="col">Attenuation Level</th>
+            <th scope ="col">Volume Value</th>
+            <th scope ="col">Volume Unit</th>
+            <th scope ="col">Boil Volume Value</th>
+            <th scope ="col">Boil Volume Unit</th>
+            <th scope ="col">Method: Mash Temp</th>
+            <th scope ="col">Method: Mash Temp Unit</th>
+            <th scope ="col">Method: Mash Duration</th>
+            <th scope ="col">Method: Fementation Temp</th>
+            <th scope ="col">Method: Fementation Unit</th>
+            <th scope ="col">Method: Twist</th>
+            <th scope ="col">ingredients: Malt name</th>
+            <th scope ="col">ingredients: Malt amount value</th>
+            <th scope ="col">ingredients: Malt amount unit</th>
+
+    </thead>
+    <tbody data-th-each ="beer:${beerList}">
+        <tr >
+            <td data-th-text = "${beer.id}"></td>
+            <td data-th-text = "${beer.name}"></td>
+            <td data-th-text = "${beer.tagline}"></td>
+            <td data-th-text = "${beer.first_brewed}"></td>
+            <td><img data-th-src = "${beer.image_url}" width="250px"></td>
+            <td data-th-text = "${beer.abv}"></td>
+            <td data-th-text = "${beer.ibu}"></td>
+            <td data-th-text = "${beer.target_fg}"></td>
+            <td data-th-text = "${beer.target_og}"></td>
+            <td data-th-text = "${beer.ebc}"></td>
+            <td data-th-text = "${beer.srm}"></td>
+            <td data-th-text = "${beer.ph}"></td>
+            <td data-th-text = "${beer.attLevel}"></td>
+            <td data-th-text = "${beer.volume.value}"></td>
+            <td data-th-text = "${beer.volume.unit}"></td>
+            <td data-th-text = "${beer.boilVolume.value}"></td>
+            <td data-th-text = "${beer.boilVolume.unit}"></td>
+            <td data-th-text = "${beer.method.mashTempValue}"></td>
+            <td data-th-text = "${beer.method.mashTempUnit}"></td>
+            <td data-th-text = "${beer.method.duration}"></td>
+            <td data-th-text = "${beer.method.fermentationTemp}"></td>
+            <td data-th-text = "${beer.method.fermentationUnit}"></td>
+            <td data-th-text = "${beer.method.twist}"></td>
+            <!-- /https://stackoverflow.com/questions/45672239/how-to-access-a-field-from-multiple-list-in-thymeleaf -->
+            <td><data-th-block data-th-each="malt:${beer.ingredients.ListOfMalt}" data-th-text ="${malt.name}">
+            </data-th-block>
+            </td>
+            <td><data-th-block data-th-each="malt:${beer.ingredients.ListOfMalt}" data-th-text ="${malt.amountValue}">
+            </data-th-block></td>
+            <td><data-th-block data-th-each="malt:${beer.ingredients.ListOfMalt}" data-th-text ="${malt.amountUnit}">
+            </data-th-block></td>
+
+
+        </tr>
+    <tr>
+
+    </tr>
+
+</tbody>
+    </table>
+
+    
+</body>
+</html>

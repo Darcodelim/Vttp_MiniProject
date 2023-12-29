@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/custom.css">
+    <title>Beer Recipe</title>
+</head>
+<body>
+    <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand"> <img data-th-src="@{/images/brewdogLogo.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">BREWDOG</a>
+            <div class = " collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class = "nav-item">
+                        <a class ="nav-link" data-th-href="@{/}">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-3 bg-light border" >
+        <form method="POST" data-th-object="${beerSearchForm}" >
+            <table class="table table-sm table-borderless">
+                <thead>
+                    <tr>
+                    <th scope="col" class="p-0"><label class="form-label m-0" >Food Pairing</label></th>
+                    <th scope="col" class="p-0"><label class="form-label m-0" >ABV(%)</label></th>
+                    <th scope="col" class="p-0"><label class="form-label m-0" >IBU</label></th>
+                    
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr >
+                        <td class="p-0">
+                        <text>&nbsp;<text>
+                        <input type="text" class="form-control" data-th-field="*{food}">
+                        <!-- Error cant be displayed on webpage, check whether there is binding -->
+                        <span data-th-if="${#fields.hasErrors('food')}"
+								data-th-errors="*{food}" data-th-errorclass="error"></span>
+                        <div class="form-text">Eg. Chicken</div>
+
+
+
+                        </td>
+
+                        <td class="p-0">
+                        <text>Min:<input type="number" step="any" min="0" class="form-control"  data-th-field="*{ABVmin}"></text>
+                        
+                        <div data-th-if="${#fields.hasErrors('ABVmin')}"
+                            data-th-errors="*{ABVmin}" data-th-errorclass="error">
+                            </div>
+                        </td>
+
+                        <td class="p-0">
+                        <text>Min:<input type="number" min="0" class="form-control" data-th-field="*{IBUmin}"></text>
+                            <div data-th-if="${#fields.hasErrors('IBUmin')}"
+                            data-th-errors="*{IBUmin}" data-th-errorclass="error"></div>
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class = "p-0">&nbsp;</td>
+                        <td class = "p-0">
+                            <text>Max:<input type="number" step="any" min="0" class="form-control" data-th-field="*{ABVmax}"></text>
+                        
+                        <div data-th-if="${#fields.hasErrors('ABVmax')}"
+                            data-th-errors="*{ABVmax}" data-th-errorclass="error">
+                            </div>
+                        <div class="form-text">Ranges from 0.5-55</div>
+                        </td>
+
+                        <td class="p-0">
+                            <text>Max:<input type="number" min="0" class="form-control" data-th-field="*{IBUmax}"></text>
+                            
+                            <div data-th-if="${#fields.hasErrors('IBUmax')}"
+                            data-th-errors="*{IBUmax}" data-th-errorclass="error"></div>
+                            <div class="form-text">It ranges from 1-250</div>
+                        </td>
+                    </tr> 
+                    
+
+                </tbody>
+
+            </table>
+            
+        
+            <button type="submit" class="btn btn-primary" formaction="/advanceSearch/search">Search</button>
+            <a data-th-href="@{/advanceSearch}" class="btn btn-danger"> Clear</a>
+        </form>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

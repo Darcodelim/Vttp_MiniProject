@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/src/main/resources/static/custom.css">
+    <title>Beer Recipe</title>
+</head>
+<body>
+    <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand"> <img data-th-src="@{/images/brewdogLogo.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">BREWDOG</a>
+            <div class = " collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class = "nav-item">
+                        <a class ="nav-link" data-th-href="@{/}">Home</a>
+                    </li>
+                    <li class = "nav-item">
+                        <a class ="nav-link" data-th-href="@{/advanceSearch}">Advance Search</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- <h1>All Beers</h1> -->
+
+    <div class="container my-3 bg-light border" data-th-object="${Beer}" >
+
+            <h1 class ="row " data-th-text="*{name}"></h1>
+            <div class ="row bg-dark bg-gradient text-light" data-th-text="*{tagline}"></div>
+            <!-- <div class="row"> </div>  Must put padding here -->
+            <div class="row">
+                <div class="col border border-primary">1
+                    
+                    <div class="row border border-dark">
+                        <text class="p-0"><Strong>Packaging</Strong></text>
+                        <img  class="rounded float-end" data-th-unless="${#strings.isEmpty(Beer.image_url)}"data-th-src = "${Beer.image_url}" width="40" height="700" >
+                        <img  class="rounded float-end" data-th-if="${#strings.isEmpty(Beer.image_url)}"data-th-src = "${'/images/brewdog.com.png'}" width="40" height="400" >
+                    </div>
+                    <div class="row">
+                        <h3 class="p-0">Food pairing</h3>
+                        <ul data-th-each="food:${Beer.food_pairing}">
+
+                            <li data-th-text="${food}"></li>
+                        </ul>
+                    
+                    </div>
+                </div>
+
+                <div class="col border border-secondary ">2
+                    <div class="row border border-dark w-auto p-0">
+                        <strong>What is it?</strong>
+                        <P data-th-text="*{description}"></P>
+                    </div>
+
+                    <!-- Basic Section -->
+                    <div class="row p-0 ">
+                        <div class="row"><strong class="p-0">Basic</strong></div>
+                        <!-- volume -->
+                        <div class="row justify-content-center">
+                            <div class="col border ">
+                            <text>Volume:</text>
+                            </div>
+                            <div class="col border w-100 " >
+                                <text data-th-text="*{volume.value} + 'L' "></text>
+
+                            </div>
+                        </div>
+                        <!-- Boil Volume -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>Boil Volume:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{boilVolume.value} + 'L'"></text>
+
+                            </div>
+                        </div>
+                        <!-- ABV -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>ABV:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{abv} + '%'"></text>
+                            </div>
+                        </div>
+                        <!-- IBU -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>IBU:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{ibu}"></text>
+                                <text></text>
+                            </div>
+                        </div>
+                        <!-- Target FG -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>Target FG:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{target_fg}"></text>
+                                
+                            </div>
+                        </div>
+                        <!-- Target OG -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>Target OG:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{target_og}"></text>
+                                
+                            </div>
+                        </div>
+                            <!-- EBC -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>EBC:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{ebc}"></text>
+                            </div>
+                        </div>
+                        <!-- srm -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>SRM:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{srm}"></text>
+                            </div>
+                        </div>
+                        
+                        <!-- pH -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>pH:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{ph}"></text>
+                            </div>
+                        </div>
+                        
+                        <!-- Attenuation -->
+                        <div class="row w-100">
+                            <div class="col border w-100">
+                            <text>Attenuation Level:</text>
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="*{attLevel} + '%'"></text>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                    <div class="row border border-dark">
+                        <div class="row"><strong class="p-0">Brewer's Tip</strong></div>
+                        <div class="row"><text data-th-text="*{brewer_tips}"></text></div>
+                    </div>
+                </div>
+
+                <div class="col border border-primary">3
+                    <div class="row border border-dark">
+                        <div class="row"><strong class="p-0">Ingredients</strong></div>
+                        <div class="row pt-1 "><h6 class="m-0">Malt:</h6></div>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">Weight(Kg)</div>
+                        </div>
+                        <div class="row w-100" data-th-each="malt:${Beer.ingredients.ListOfMalt}">
+                            <div class="col border w-100">
+                            <text data-th-text="${malt.name} + ':' "></text>
+                            <!-- <text>:</text> -->
+                            </div>
+                            <div class="col border w-100">
+                                <text data-th-text="${malt.amountValue} "></text>
+                            </div>
+                        </div>
+                        <div class="row pt-2"><h6 class="m-0">Hops:</h6></div>
+                        <div class="row">
+                            <div class="col w-100"></div>
+                            <div class="col w-100">Weight(g)</div>
+                            <div class="col w-100">Add</div>
+                            <div class="col w-100">Atrribute</div>
+                        </div>
+                        <div class="row w-100" data-th-each="hop:${Beer.ingredients.ListOfHops}">
+                            <div class="col border w-100">
+
+                                <text data-th-text="${hop.name} + ':' "></text>
+                                <!-- <text>:</text> -->
+                                </div>
+                                <div class="col border w-100">
+                                    <text data-th-text="${hop.amountValue}"></text>
+                                </div>
+
+                                <div class="col border w-100">
+                                    <text data-th-text="${hop.add}"></text>
+                                </div>
+                                
+                                <div class="col border w-100">
+                                    <text data-th-text="${hop.attribute}"></text>
+                                </div>
+                        </div>
+                        <div class="row pt-2"><h6 class="m-0">Yeast:</h6></div>
+                        <div class="row w-100" >
+                            <text data-th-text="${Beer.ingredients.yeast}"></text>
+
+                         </div>
+
+                    <div class="row">
+                        <div class="row"><strong class="p-0 mt-2">Methods</strong></div>
+                        <!-- Mash -->
+                        <div class="row pt-1 "><h6 class="m-0">Mash:</h6></div>
+                        <div class="row mt-1" >
+                            <text data-th-text="'Mash at '+ ${Beer.method.mashTempValue} + '&#8451 for ' + ${Beer.method.duration} + ' mins'"></text>
+                        </div>
+
+                        <!-- Fermentation -->
+                        <div class="row pt-1 "><h6 class="mt-1">Fementation:</h6></div>
+                        <div class="row mt-0">
+                            <text data-th-text="'Ferment at ' + ${Beer.method.fermentationTemp} + '&#8451'"></text>
+                        </div>
+          
+                        <!-- Twist -->
+                        <div class="row pt-1 "><h6 class="mt-2">Twist:</h6></div>
+                        <div class="col border w-100">
+                            <text data-th-text="${Beer.method.twist}"></text>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+           
+
+
+
+
+
+
+
+    </div>
+
+
+
+</body>
+</html>
