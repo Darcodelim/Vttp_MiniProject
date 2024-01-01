@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Repository;
 
 
@@ -30,19 +31,20 @@ public class userBeerRepo {
 
     public void addList(String name,List<BeerRepo> beerList)
     {
-        ListOperations<String,String> list = template.opsForList();
+        SetOperations<String,String> Set = template.opsForSet();
         beerList.stream().forEach(Beer->{ 
             String rec ="%s,%s".formatted(Beer.getId(),Beer.getName());
-            list.leftPush(name,rec);
+            System.out.printf("Beer Added:%s",rec);
+            Set.add(name, rec);
         });
     }
     
     public List<BeerRepo> getBeerList(String name)
     {
-        ListOperations<String,String> list = template.opsForList();
-        Long size = list.size(name);
+        SetOperations<String,String> Set = template.opsForSet();
+        // Long size = list.size(name);
         List<BeerRepo> beerList = new LinkedList<>();
-        for(String i : list.range(name,0,size))
+        for(String i : Set.members(name))
         {
             String[] terms = i.split(",");
             BeerRepo beerRepo = new BeerRepo();
@@ -51,5 +53,17 @@ public class userBeerRepo {
             beerList.add(beerRepo);
         }
         return beerList;
+    }
+
+    public void deleteBeerRepo(String name, String id,String beerName)
+    {
+        SetOperations<String,String> Set = template.opsForSet();
+        System.out.printf("Beer ID removed:%s\n",id);
+        System.out.printf("Name removed:%s\n",beerName);
+        String rec = "%s,%s".formatted(id,beerName);
+        Long num = Set.remove(name,rec);
+        System.out.println(rec);
+        
+        System.out.printf("Number of items removed:%s\n",Long.toString(num));
     }
 }

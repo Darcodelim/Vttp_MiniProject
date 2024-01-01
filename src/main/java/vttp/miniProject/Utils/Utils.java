@@ -67,7 +67,7 @@ public class Utils {
     {
         JsonArray maltArray = ingredientObject.getJsonArray("malt");
         JsonArray hopArray = ingredientObject.getJsonArray("hops");
-        String yeast = ingredientObject.getString("yeast");
+        String yeast = ingredientObject.getString("yeast","N/A");
 
         List<Malt> malt = maltList(maltArray);
         List<Hops> hops = hopList(hopArray);
@@ -103,19 +103,25 @@ public class Utils {
     public method method(JsonObject methodObject)
     {   //MashTemp
         JsonObject mashTempObject= methodObject.getJsonArray("mash_temp").getJsonObject(0);
-        String mashValue = Integer.toString(mashTempObject.getJsonObject("temp").getInt("value"));
-        String mashUnit = mashTempObject.getJsonObject("temp").getString("unit");
-        String mashDuration = Integer.toString(mashTempObject.getInt("duration",0));
 
+        String mashValue = "";
+        String mashUnit = "";
+        String mashDuration = "";
 
         //Fermentation
         JsonObject fermentationObject =  methodObject.getJsonObject("fermentation");
         String fermentValue ="";
         try {
             fermentValue = Integer.toString(fermentationObject.getJsonObject("temp").getInt("value",0));
+            mashValue = Integer.toString(mashTempObject.getJsonObject("temp").getInt("value"));
+            mashUnit = mashTempObject.getJsonObject("temp").getString("unit");
+            mashDuration = Integer.toString(mashTempObject.getInt("duration",0));    
         } catch (Exception e) {
-            // TODO: handle exception
+            
             fermentValue = "N/A";
+            mashValue = "N/A";
+            mashUnit = "N/A";
+            mashDuration = "N/A";
         }
          
         String fermentUnit = fermentationObject.getJsonObject("temp").getString("unit","N/A");

@@ -64,6 +64,7 @@ public class AppConfig {
 
       template.setKeySerializer(new StringRedisSerializer());
       template.setValueSerializer(new StringRedisSerializer());
+   
       template.setHashKeySerializer(new StringRedisSerializer());
       template.setHashValueSerializer(new StringRedisSerializer());
 

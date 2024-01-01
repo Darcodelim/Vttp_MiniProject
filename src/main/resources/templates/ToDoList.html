@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" data-th-href="@{/css/custom.css}">
+    <title>To Do List</title>
+</head>
+<body>
+    <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand"> <img data-th-src="@{/images/brewdogLogo.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">BREWDOG</a>
+            <div class = "collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class = "nav-item">
+                        <form method="POST" >
+                        <button class ="nav-link btn btn-dark" name="username" data-th-value="${username1}" type="submit" formaction="/Home">Home</button>
+                        </form>
+                    </li>
+                    <li class = "nav-item">
+                        <a class ="nav-link btn btn-dark" href="/advanceSearch">Advance Search</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">
+
+                <a class ="link-light btn btn-dark px-3" href="/logout" >Log Out</a>
+
+            </div>
+        </div>
+    </nav>
+    <!-- <h1>All Beers</h1> -->
+    <div class ="container p-0 my-3 "data-th-unless="${#strings.isEmpty(username1)}">
+        <h3 >To do list:</h3>
+
+    </div>
+    <div class="container my-3 bg-light border" data-th-unless="${#strings.isEmpty(username1)}">
+            <div class="row " >
+                <div data-th-if="${#lists.isEmpty(beerList)}">
+                    <text>Your To Do List is Empty</text>
+                </div>
+                <div class="col-xl-6 " data-th-each="beer:${beerList}">
+                    <form action="/Beer" method="POST">
+                        <input type="hidden" name="username" data-th-value="${username1}">
+                        <input type="hidden" name="todo" value="">
+                        <button class="btn w-100 btn-lg  border-bottom" type="submit" data-th-value ="${beer.id}" data-th-name="id">
+                            
+                            <!-- <p data-th-text="${beer.id}"></p> -->
+                                <div class="rounded float-end">
+                                    <img data-th-unless="${#strings.isEmpty(beer.image_url)}" data-th-src = "${beer.image_url}" width="64" height="130">
+                                    <img data-th-if="${#strings.isEmpty(beer.image_url)}"data-th-src = "${'/images/brewdog.com.png'}" width="64" height="130" >
+                                </div>
+                                
+                                <span><h3 data-th-text="${beer.name}"></h3></span>
+                                <p><strong>First Brewed Date:</strong>
+                                    <span data-th-text="${beer.first_brewed}"></span>
+                                </p>
+                                <span>
+                                    <strong>ABV(%):</strong>
+                                    <a data-th-text ="${beer.abv}"></a>
+                                </span>
+                                <span>
+                                    <strong>IBU:</strong>
+                                    <a data-th-text ="${beer.ibu}"></a>
+                                </span>
+                                <!-- <form  >
+                                    <input type="hidden" name="username" data-th-value="${username1}">
+                                    <input type="hidden" name="id" data-th-value="${beer.id}">
+                                    <input type="hidden" name="beerName" data-th-value="${beer.name}">
+                                    <button type="submit" class="btn btn-danger" formaction="/deleteBeer" formmethod="POST"> Delete</button>
+                                </form> -->
+                                
+                        </div>
+
+    
+                            
+    
+                        </button>
+    
+    
+                    </form>
+                    <!-- <form data-th-each="beer:${beerList}">
+                        <input type="hidden" name="username" data-th-value="${username1}">
+                        <input type="hidden" name="id" data-th-value="${beer.id}">
+                        <input type="hidden" name="beerName" data-th-value="${beer.name}">
+                        <button type="submit" class="btn btn-danger" formaction="/deleteBeer" formmethod="POST"> Delete</button>
+                    </form> --> 
+                </div>
+
+            </div>
+
+
+   
+
+
+
+
+    </div>
+
+    <footer class="fixed-bottom">
+
+        <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05);">
+            <a class="text-reset fw-bold" href="/credits">Credits</a>
+        </div>
+        
+    </footer>
+
+
+
+</body>
+</html>

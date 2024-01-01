@@ -11,6 +11,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
@@ -47,18 +48,10 @@ public class BeerService {
         Optional<String> ibu_ltOp = Optional.ofNullable(ibu_lt);
         Optional<String> foodOp = Optional.ofNullable(food);
         Optional<String> beer_nameOp = Optional.ofNullable(beer_name);
-
-        // String encodedIds = "";
-        // try {
-        //     encodedIds = java.net.URLEncoder.encode(ids,"UTF-8");
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-        // System.out.printf("Encoded:%s",encodedIds);
         Optional<String> beer_IDOp =Optional.ofNullable(ids);
-        System.out.println(beer_IDOp);
+        
 
-        String url = UriComponentsBuilder
+        UriComponents urlCom = UriComponentsBuilder
                .fromUriString("https://api.punkapi.com/v2/beers")
                .queryParamIfPresent("page", pageOp)
                .queryParamIfPresent("per_page", per_pageOp)
@@ -69,25 +62,26 @@ public class BeerService {
                .queryParamIfPresent("food",foodOp)
                .queryParamIfPresent("beer_name",beer_nameOp)
                .queryParamIfPresent("ids", beer_IDOp)
-               .toUriString();
-        
-         System.out.println(url);
+               .build(false); //Need to disable the URL encoding at this section as RestTemplate would do another encoding, else there would be double encoding
+         
+         String url =  urlCom.toString();
+        //  System.out.println(url);
          RequestEntity<Void> req = RequestEntity.get(url).build();
-         System.out.println(req);
+        //  System.out.println(req);
          RestTemplate template = new RestTemplate();
          ResponseEntity<String> resp = null;
 
-        try {
+        try {;
 
             resp = template.exchange(req, String.class);
 
          } catch (Exception ex) {
             ex.printStackTrace();
-            // return new LinkedList<>();
+            
          }
 
          String payload = resp.getBody();
-         System.out.println(payload);
+        //  System.out.println(payload);
          JsonReader reader = Json.createReader(new StringReader(payload));
          JsonArray result = reader.readArray();
         
@@ -108,23 +102,28 @@ public class BeerService {
             String ebc="";
             String srm ="";
             String pH = "";
+            String target_fg ="";
+            String target_og ="";
+            String attLevel ="";
             try {
                 ibu = Double.toString(jsonObject.getJsonNumber("ibu").doubleValue());
                 ebc = Integer.toString(jsonObject.getInt("ebc"));
                 srm = Integer.toString(jsonObject.getInt("srm"));
                 pH = Double.toString(jsonObject.getJsonNumber("ph").doubleValue());
+                target_fg = Double.toString(jsonObject.getJsonNumber("target_fg").doubleValue());
+                target_og =  Double.toString(jsonObject.getJsonNumber("target_og").doubleValue());
+                attLevel = Integer.toString(jsonObject.getInt("attenuation_level"));
+                
             } catch (Exception e) {
                 ibu = "N/A";
                 ebc = "N/A";
                 srm = "N/A";
                 pH = "N/A";
+                target_fg ="N/A";
+                target_og ="N/A";
+                attLevel = "N/A";
             }
             // String ibu = utils.doubleValue(jsonObject.get("ibu"));
-            String target_fg = Double.toString(jsonObject.getJsonNumber("target_fg").doubleValue());
-            String target_og =  Double.toString(jsonObject.getJsonNumber("target_og").doubleValue());
-            
-            
-            String attLevel = Integer.toString(jsonObject.getInt("attenuation_level"));
             
             //Volume JsonObject
             JsonObject volumeObject = jsonObject.getJsonObject("volume");

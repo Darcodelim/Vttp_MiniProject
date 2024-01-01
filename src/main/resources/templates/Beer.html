@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/src/main/resources/static/custom.css">
+    <link rel="stylesheet" type="text/css" data-th-href="@{/css/custom.css}">
     <title>Beer Recipe</title>
 </head>
 <body>
@@ -13,35 +13,66 @@
 
             <a class="navbar-brand"> <img data-th-src="@{/images/brewdogLogo.png}" alt="" width="30" height="30" class="d-inline-block align-text-top">BREWDOG</a>
             <div class = " collapse navbar-collapse">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class = "nav-item">
-                        <a class ="nav-link" data-th-href="@{/}">Home</a>
+                        <a data-th-if="${#strings.isEmpty(username1)}" href="/" class ="nav-link btn btn-dark">Login</a>
+
+                        <form method="POST" data-th-unless="${#strings.isEmpty(username1)}">
+                            <button class ="nav-link btn btn-dark" name="username" data-th-value="${username1}" type="submit" formaction="/Home">Home</button>
+                        </form>
                     </li>
                     <li class = "nav-item">
-                        <a class ="nav-link" data-th-href="@{/advanceSearch}">Advance Search</a>
+                        <a data-th-unless="${#strings.isEmpty(username1)}" class ="nav-link btn btn-dark" href="/advanceSearch">Advance Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" data-th-unless="${#strings.isEmpty(username1)}">
+                            <button class ="nav-link btn btn-dark" name="username" data-th-value="${username1}" type="submit" formaction="/To_do_list">To Do List</button>
+                        </form>
                     </li>
                 </ul>
+
+                <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">
+
+                    <a class ="link-light btn btn-dark px-3" href="/logout" >Log Out</a>
+
+                </div>
             </div>
         </div>
     </nav>
-    <!-- <h1>All Beers</h1> -->
 
-    <div class="container my-3 bg-light border" data-th-object="${Beer}" >
+    <div class="container p-1" data-th-unless="${#strings.isEmpty(username1) or #strings.isEmpty(todo)}">
+        <form method="POST" data-th-object="${Beer}" >
+            <input type="hidden" name ="id" data-th-value="${Beer.id}">
+            <input type="hidden" name ="beerName" data-th-value="${Beer.name}">
+            <input type="hidden" name="food" data-th-value="${food}">
+            <input type="hidden" name="ABVmin" data-th-value="${ABVmin}">
+            <input type="hidden" name="ABVmax" data-th-value="${ABVmax}">
+            <input type="hidden" name="IBUmin" data-th-value="${IBUmin}">
+            <input type="hidden" name="IBUmax" data-th-value="${IBUmax}">
+            <input type="hidden" name="username" data-th-value="${username1}">
 
-            <h1 class ="row " data-th-text="*{name}"></h1>
-            <div class ="row bg-dark bg-gradient text-light" data-th-text="*{tagline}"></div>
+            <button data-th-if ="${#strings.isEmpty(food) and #strings.isEmpty(ABVmin) or #strings.isEmpty(IBUmin)}" class ="btn btn-primary my-3" type="submit" formaction="/Home">Add to do</button>
+            <button data-th-unless="${#strings.isEmpty(food) and #strings.isEmpty(ABVmin) or #strings.isEmpty(IBUmin)}" class ="btn btn-primary my-3" type="submit" formaction="/advanceSearch/search">Add to do</button>
+        </form>
+
+    </div>
+
+    <div class="container my-3 " data-th-object="${Beer}" >
+            <div class ="row rounded-top " style="background-color: rgba(55, 186, 165, 0.20);"><h1  class="p-0" data-th-text="*{name}"></h1></div>
+            
+            <div class ="row bg-dark bg-gradient text-light " data-th-text="*{tagline}"></div>
             <!-- <div class="row"> </div>  Must put padding here -->
-            <div class="row">
-                <div class="col border border-primary">1
+            <div class="row rounded">
+                <div class="col rounded-left border-right-0 ">
                     
-                    <div class="row border border-dark">
+                    <div class="row ">
                         <text class="p-0"><Strong>Packaging</Strong></text>
                         <img  class="rounded float-end" data-th-unless="${#strings.isEmpty(Beer.image_url)}"data-th-src = "${Beer.image_url}" width="40" height="700" >
                         <img  class="rounded float-end" data-th-if="${#strings.isEmpty(Beer.image_url)}"data-th-src = "${'/images/brewdog.com.png'}" width="40" height="400" >
                     </div>
-                    <div class="row">
-                        <h3 class="p-0">Food pairing</h3>
-                        <ul data-th-each="food:${Beer.food_pairing}">
+                    <div class="row rounded-left">
+                        <strong class="pt-1 ps-0">Food pairing</strong>
+                        <ul class = "ps-4" data-th-each="food:${Beer.food_pairing}">
 
                             <li data-th-text="${food}"></li>
                         </ul>
@@ -49,9 +80,9 @@
                     </div>
                 </div>
 
-                <div class="col border border-secondary ">2
-                    <div class="row border border-dark w-auto p-0">
-                        <strong>What is it?</strong>
+                <div class="col ">
+                    <div class="row w-auto p-0">
+                        <strong class="p-0" >What is it?</strong>
                         <P data-th-text="*{description}"></P>
                     </div>
 
@@ -60,175 +91,175 @@
                         <div class="row"><strong class="p-0">Basic</strong></div>
                         <!-- volume -->
                         <div class="row justify-content-center">
-                            <div class="col border ">
+                            <div class="col  ">
                             <text>Volume:</text>
                             </div>
-                            <div class="col border w-100 " >
+                            <div class="col  w-100 " >
                                 <text data-th-text="*{volume.value} + 'L' "></text>
 
                             </div>
                         </div>
                         <!-- Boil Volume -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col w-100">
                             <text>Boil Volume:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{boilVolume.value} + 'L'"></text>
 
                             </div>
                         </div>
                         <!-- ABV -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>ABV:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{abv} + '%'"></text>
                             </div>
                         </div>
                         <!-- IBU -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>IBU:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col w-100">
                                 <text data-th-text="*{ibu}"></text>
                                 <text></text>
                             </div>
                         </div>
                         <!-- Target FG -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>Target FG:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{target_fg}"></text>
                                 
                             </div>
                         </div>
                         <!-- Target OG -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>Target OG:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col w-100">
                                 <text data-th-text="*{target_og}"></text>
                                 
                             </div>
                         </div>
                             <!-- EBC -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>EBC:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{ebc}"></text>
                             </div>
                         </div>
                         <!-- srm -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col w-100">
                             <text>SRM:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{srm}"></text>
                             </div>
                         </div>
                         
                         <!-- pH -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>pH:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{ph}"></text>
                             </div>
                         </div>
                         
                         <!-- Attenuation -->
                         <div class="row w-100">
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                             <text>Attenuation Level:</text>
                             </div>
-                            <div class="col border w-100">
+                            <div class="col  w-100">
                                 <text data-th-text="*{attLevel} + '%'"></text>
                             </div>
                         </div>
                     
                     </div>
 
-                    <div class="row border border-dark">
-                        <div class="row"><strong class="p-0">Brewer's Tip</strong></div>
+                    <div class="row ">
+                        <div class="row"><strong class="pt-3 ps-0">Brewer's Tip</strong></div>
                         <div class="row"><text data-th-text="*{brewer_tips}"></text></div>
                     </div>
                 </div>
 
-                <div class="col border border-primary">3
-                    <div class="row border border-dark">
+                <div class="col">
+                    <div class="row ">
                         <div class="row"><strong class="p-0">Ingredients</strong></div>
-                        <div class="row pt-1 "><h6 class="m-0">Malt:</h6></div>
+                        <div class="row pt-1 "><h6 class="m-0"><u>Malt:</u></h6></div>
                         <div class="row">
                             <div class="col"></div>
-                            <div class="col">Weight(Kg)</div>
+                            <div class="col text-center"><h6>Weight(Kg)</h6></div>
                         </div>
                         <div class="row w-100" data-th-each="malt:${Beer.ingredients.ListOfMalt}">
-                            <div class="col border w-100">
+                            <div class="col w-100">
                             <text data-th-text="${malt.name} + ':' "></text>
                             <!-- <text>:</text> -->
                             </div>
-                            <div class="col border w-100">
-                                <text data-th-text="${malt.amountValue} "></text>
+                            <div class="col w-100  text-center">
+                                <text class="text-center" data-th-text="${malt.amountValue} "></text>
                             </div>
                         </div>
-                        <div class="row pt-2"><h6 class="m-0">Hops:</h6></div>
+                        <div class="row pt-2"><h6 class="m-0"><u>Hops:</u></h6></div>
                         <div class="row">
                             <div class="col w-100"></div>
-                            <div class="col w-100">Weight(g)</div>
-                            <div class="col w-100">Add</div>
-                            <div class="col w-100">Atrribute</div>
+                            <div class="col w-100"><h6>Weight(g)</h6></div>
+                            <div class="col w-100 text-center"><h6>Add</h6></div>
+                            <div class="col w-100 text-center"><h6>Atrribute</h6></div>
                         </div>
                         <div class="row w-100" data-th-each="hop:${Beer.ingredients.ListOfHops}">
-                            <div class="col border w-100">
+                            <div class="col w-100 text-start">
 
                                 <text data-th-text="${hop.name} + ':' "></text>
                                 <!-- <text>:</text> -->
                                 </div>
-                                <div class="col border w-100">
+                                <div class="col text-center w-100">
                                     <text data-th-text="${hop.amountValue}"></text>
                                 </div>
 
-                                <div class="col border w-100">
-                                    <text data-th-text="${hop.add}"></text>
+                                <div class="col  text-center w-100">
+                                    <text data-th-text="${#strings.capitalize(hop.add)}"></text>
                                 </div>
                                 
-                                <div class="col border w-100">
-                                    <text data-th-text="${hop.attribute}"></text>
+                                <div class="col  text-center w-100">
+                                    <text data-th-text="${#strings.capitalize(hop.attribute)}"></text>
                                 </div>
                         </div>
-                        <div class="row pt-2"><h6 class="m-0">Yeast:</h6></div>
+                        <div class="row pt-3"><h6 class="m-0"><u>Yeast:</u></h6></div>
                         <div class="row w-100" >
                             <text data-th-text="${Beer.ingredients.yeast}"></text>
 
                          </div>
 
                     <div class="row">
-                        <div class="row"><strong class="p-0 mt-2">Methods</strong></div>
+                        <div class="row"><strong class="p-0 mt-3">Methods</strong></div>
                         <!-- Mash -->
-                        <div class="row pt-1 "><h6 class="m-0">Mash:</h6></div>
+                        <div class="row pt-2 "><h6 class="m-0"><u>Mash:</u></h6></div>
                         <div class="row mt-1" >
                             <text data-th-text="'Mash at '+ ${Beer.method.mashTempValue} + '&#8451 for ' + ${Beer.method.duration} + ' mins'"></text>
                         </div>
 
                         <!-- Fermentation -->
-                        <div class="row pt-1 "><h6 class="mt-1">Fementation:</h6></div>
+                        <div class="row pt-2 "><h6 class="mt-1"><u>Fementation:</u></h6></div>
                         <div class="row mt-0">
                             <text data-th-text="'Ferment at ' + ${Beer.method.fermentationTemp} + '&#8451'"></text>
                         </div>
           
                         <!-- Twist -->
-                        <div class="row pt-1 "><h6 class="mt-2">Twist:</h6></div>
-                        <div class="col border w-100">
+                        <div class="row pt-2 "><h6 class="mt-2"><u>Twist:</u></h6></div>
+                        <div class="col  w-100">
                             <text data-th-text="${Beer.method.twist}"></text>
                         </div>
 
@@ -245,20 +276,17 @@
 
             </div>
 
-
-
-
-
-
-           
-
-
-
-
-
-
-
     </div>
+    </div>
+
+    <footer>
+
+        <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
+            <a class="text-reset fw-bold" href="/credits">Credits</a>
+        </div>
+        
+    </footer>
+
 
 
 

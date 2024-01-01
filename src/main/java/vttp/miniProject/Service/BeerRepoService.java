@@ -28,8 +28,13 @@ public class BeerRepoService {
 
     public void save(String name, List<BeerRepo> list)
     {
-        userBeerRepo.deleteList(name);
+        // userBeerRepo.deleteList(name);
         userBeerRepo.addList(name, list);
+    }
+
+    public void delete(String name, String id, String beerName)
+    {
+       userBeerRepo.deleteBeerRepo(name, id,beerName);
     }
     
 }
