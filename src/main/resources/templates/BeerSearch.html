@@ -27,6 +27,9 @@
                             <button class ="nav-link btn btn-dark" name="username" data-th-value="${username1}" type="submit" formaction="/To_do_list">To Do List</button>
                         </form>
                     </li>
+                    <li class = "nav-item" data-th-unless="${#strings.isEmpty(username1)}">
+                        <a style="font-family: Comic Sans MS,sans-serif ; font-style: italic;" data-th-unless="${#strings.isEmpty(username1)}" class ="nav-link btn btn-dark " href="/Random">Feeling Adventurous?</a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">
@@ -97,9 +100,13 @@
 
 
     </div>
+    <div class ="container my-3  p-0">
+        <div data-th-if="${#lists.isEmpty(beerList)}">
+            <h5>There is no result</h5>
+        </div>
+    </div>
+    <div class="container my-3 bg-light border" data-th-unless="${#lists.isEmpty(beerList)}">
 
-    <div class="container my-3 bg-light border">
-        
             <div class="row " >
                 <div class="col-xl-6 " data-th-each="beer:${beerList}">
                     <form action="/Beer" method="POST">

@@ -29,6 +29,9 @@
                             <button class ="nav-link btn btn-dark" name="username" data-th-value="${username1}" type="submit" formaction="/To_do_list">To Do List</button>
                         </form>
                     </li>
+                    <li class = "nav-item" data-th-unless="${#strings.isEmpty(username1)}">
+                        <a style="font-family: Comic Sans MS,sans-serif ; font-style: italic;" data-th-unless="${#strings.isEmpty(username1)}" class ="nav-link btn btn-dark " href="/Random">Feeling Adventurous?</a>
+                    </li>
 
                 </ul>
                 <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">
@@ -109,7 +112,7 @@
           
         </ul>
       </nav>
-      <footer>
+      <footer class="fixed-bottom">
 
         <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05);">
             <a class="text-reset fw-bold" href="/credits">Credits</a>

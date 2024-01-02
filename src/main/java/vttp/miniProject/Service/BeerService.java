@@ -172,6 +172,87 @@ public class BeerService {
          
     }
 
+    public Beer randomBeer()
+    {
+    
+    String urlCom = UriComponentsBuilder
+               .fromUriString("https://api.punkapi.com/v2/beers")
+               .path("/random")
+               .toUriString();
+        RequestEntity<Void> req = RequestEntity.get(urlCom).build();
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = null;
+        try {;
 
+            resp = template.exchange(req, String.class);
+
+         } catch (Exception ex) {
+            ex.printStackTrace();
+            
+         }
+
+        String payload = resp.getBody();
+        JsonReader reader = Json.createReader(new StringReader(payload));
+        JsonArray result = reader.readArray();
+        JsonValue Json_contribute_by =result.get(0);
+        JsonObject jsonObject = Json_contribute_by.asJsonObject();
+        
+        String id = Integer.toString(jsonObject.getInt("id"));
+        String name = jsonObject.getString("name");
+        String tagline = jsonObject.getString("tagline");
+        String first_brewed = jsonObject.getString("first_brewed");
+        String description =  jsonObject.getString("description");
+        String image_url = jsonObject.getString("image_url",null);
+        String abv = Double.toString(jsonObject.getJsonNumber("abv").doubleValue());
+        String ibu="";
+        String ebc="";
+        String srm ="";
+        String pH = "";
+        String target_fg ="";
+        String target_og ="";
+        String attLevel ="";
+        try {
+            ibu = Double.toString(jsonObject.getJsonNumber("ibu").doubleValue());
+            ebc = Integer.toString(jsonObject.getInt("ebc"));
+            srm = Integer.toString(jsonObject.getInt("srm"));
+            pH = Double.toString(jsonObject.getJsonNumber("ph").doubleValue());
+            target_fg = Double.toString(jsonObject.getJsonNumber("target_fg").doubleValue());
+            target_og =  Double.toString(jsonObject.getJsonNumber("target_og").doubleValue());
+            attLevel = Integer.toString(jsonObject.getInt("attenuation_level"));
+            
+        } catch (Exception e) {
+            ibu = "N/A";
+            ebc = "N/A";
+            srm = "N/A";
+            pH = "N/A";
+            target_fg ="N/A";
+            target_og ="N/A";
+            attLevel = "N/A";
+        }
+        // String ibu = utils.doubleValue(jsonObject.get("ibu"));
+        
+        //Volume JsonObject
+        JsonObject volumeObject = jsonObject.getJsonObject("volume");
+        Volume volume = utils.volume(volumeObject);
+        //boilVolume JsonObject
+        JsonObject boilVolumeObject = jsonObject.getJsonObject("boil_volume");
+        boilVolume boilVolume = utils.boilvolume(boilVolumeObject);
+        //method JsonObject
+        JsonObject methodObject = jsonObject.getJsonObject("method");
+        method method = utils.method(methodObject);
+
+        //ingredients JsonObject
+        JsonObject ingredientObject = jsonObject.getJsonObject("ingredients");
+        Ingredients ingredients = utils.ingredients(ingredientObject);
+        //food pairing JsonArray
+        JsonArray foodPairing = jsonObject.getJsonArray("food_pairing");
+        List<String> foodPairingList = utils.foodPairingList(foodPairing);
+
+        String brewerTips = jsonObject.getString("brewers_tips");
+
+        Beer beer = new Beer(id, name, tagline, first_brewed, description, image_url, abv, ibu, target_fg, target_og, ebc, srm, pH, attLevel, volume, boilVolume, method, ingredients, foodPairingList, brewerTips);
+
+        return beer;
+        }
     
 }

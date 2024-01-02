@@ -29,6 +29,9 @@
                             <button class ="nav-link btn btn-dark" name="username" data-th-value="${username1}" type="submit" formaction="/To_do_list">To Do List</button>
                         </form>
                     </li>
+                    <li class = "nav-item" data-th-unless="${#strings.isEmpty(username1)}">
+                        <a style="font-family: Comic Sans MS,sans-serif ; font-style: italic;" data-th-unless="${#strings.isEmpty(username1)}" class ="nav-link btn btn-dark " href="/Random">Feeling Adventurous?</a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">
@@ -39,7 +42,7 @@
             </div>
         </div>
     </nav>
-
+    <!-- {#strings.isEmpty(username1) or #strings.isEmpty(todo)} -->
     <div class="container p-1" data-th-unless="${#strings.isEmpty(username1) or #strings.isEmpty(todo)}">
         <form method="POST" data-th-object="${Beer}" >
             <input type="hidden" name ="id" data-th-value="${Beer.id}">
@@ -50,14 +53,15 @@
             <input type="hidden" name="IBUmin" data-th-value="${IBUmin}">
             <input type="hidden" name="IBUmax" data-th-value="${IBUmax}">
             <input type="hidden" name="username" data-th-value="${username1}">
-
+            
             <button data-th-if ="${#strings.isEmpty(food) and #strings.isEmpty(ABVmin) or #strings.isEmpty(IBUmin)}" class ="btn btn-primary my-3" type="submit" formaction="/Home">Add to do</button>
             <button data-th-unless="${#strings.isEmpty(food) and #strings.isEmpty(ABVmin) or #strings.isEmpty(IBUmin)}" class ="btn btn-primary my-3" type="submit" formaction="/advanceSearch/search">Add to do</button>
         </form>
 
     </div>
 
-    <div class="container my-3 " data-th-object="${Beer}" >
+    <div class="container my-2 " data-th-object="${Beer}" >
+
             <div class ="row rounded-top " style="background-color: rgba(55, 186, 165, 0.20);"><h1  class="p-0" data-th-text="*{name}"></h1></div>
             
             <div class ="row bg-dark bg-gradient text-light " data-th-text="*{tagline}"></div>
@@ -275,17 +279,17 @@
 
 
             </div>
-
-    </div>
-    </div>
-
-    <footer>
-
-        <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
-            <a class="text-reset fw-bold" href="/credits">Credits</a>
         </div>
-        
-    </footer>
+
+</div>
+
+<footer>
+
+    <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
+        <a class="text-reset fw-bold" href="/credits">Credits</a>
+    </div>
+    
+</footer>
 
 
 

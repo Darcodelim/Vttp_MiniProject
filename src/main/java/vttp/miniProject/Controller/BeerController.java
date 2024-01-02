@@ -23,6 +23,8 @@ import jakarta.validation.Valid;
 import vttp.miniProject.Model.Beer;
 import vttp.miniProject.Model.BeerRepo;
 import vttp.miniProject.Model.BeerSearchForm;
+import vttp.miniProject.Model.User;
+import vttp.miniProject.Repository.userBeerRepo;
 import vttp.miniProject.Service.BeerRepoService;
 import vttp.miniProject.Service.BeerService;
 import vttp.miniProject.Utils.listUtils;
@@ -38,20 +40,17 @@ public class BeerController {
     BeerRepoService beerRepoService;
 
     @Autowired
+    userBeerRepo userBeerRepo;
+
+    @Autowired
     listUtils listUtils;
 
    
    @GetMapping("/")
-   public String getMain()
+   public String getMain(Model model)
    {  
-      // String username = param.getFirst("username");
-      // List<BeerRepo> beerListRepo = beerRepoService.getList(username);
 
-      
 
-      // model.addAttribute("beerListRepo", beerListRepo);
-      
-      
       return "Main";
    }
    
@@ -59,8 +58,11 @@ public class BeerController {
       public String getHome(@RequestBody MultiValueMap<String,String> body,Model model,HttpSession sess) {
       // String username = param
       // System.out.println(username);
+
       String username = body.getFirst("username");
       System.out.println(username);
+
+
       sess.setAttribute("username", username);
       
       //This is from the posting /Beer back to Home, if beer is access from the Home page
@@ -78,6 +80,7 @@ public class BeerController {
       model.addAttribute("beerList", beerList);
       model.addAttribute("username1", username);
       return "Home";
+
    }
       @GetMapping(path={"/Home/p2"})
       public String getHomeP2(Model model,HttpSession sess) {
@@ -338,13 +341,34 @@ public class BeerController {
       return "Home";
    }
 
+   @GetMapping("/Random")
+   public String randomBeer(HttpSession sess, Model model)
+   {  String todo ="Yes";
+      String username = (String)sess.getAttribute("username");
+      if(username.isEmpty())
+      {
+         return "error";
+      }
+      else{
+     Beer randomBeer = beerSvc.randomBeer();
+      System.out.println(username);
+     model.addAttribute("Beer", randomBeer);
+     model.addAttribute("username1", username);
+     model.addAttribute("todo",todo);
+     return "Beer";
+
+      }
+
+   }
+
    @GetMapping("/logout")
-   public String logout(HttpSession sess)
-   {
+   public String logout(HttpSession sess,Model model)
+   { 
       sess.invalidate();
       
       return"Main";
 
    }
+   
 
 }

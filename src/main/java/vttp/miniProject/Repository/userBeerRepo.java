@@ -32,9 +32,9 @@ public class userBeerRepo {
     public void addList(String name,List<BeerRepo> beerList)
     {
         SetOperations<String,String> Set = template.opsForSet();
-        beerList.stream().forEach(Beer->{ 
+        beerList.stream().filter(beer-> beer.getId()!=null).forEach(Beer->{ 
             String rec ="%s,%s".formatted(Beer.getId(),Beer.getName());
-            System.out.printf("Beer Added:%s",rec);
+            System.out.printf("\nBeer Added:%s\n",rec);
             Set.add(name, rec);
         });
     }

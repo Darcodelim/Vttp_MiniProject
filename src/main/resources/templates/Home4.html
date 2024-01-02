@@ -32,6 +32,9 @@
                     <li class = "nav-item" data-th-unless="${#strings.isEmpty(username1)}">
                         <a class ="nav-link btn btn-dark" href="/logout">Log Out</a>
                     </li>
+                    <li class = "nav-item" data-th-unless="${#strings.isEmpty(username1)}">
+                        <a style="font-family: Comic Sans MS,sans-serif ; font-style: italic;" data-th-unless="${#strings.isEmpty(username1)}" class ="nav-link btn btn-dark " href="/Random">Feeling Adventurous?</a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">

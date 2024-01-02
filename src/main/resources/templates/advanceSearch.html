@@ -26,6 +26,10 @@
                         </form>
                     </li>
                     
+                    <li class = "nav-item" data-th-unless="${#strings.isEmpty(username1)}">
+                        <a style="font-family: Comic Sans MS,sans-serif ; font-style: italic;" data-th-unless="${#strings.isEmpty(username1)}" class ="nav-link btn btn-dark " href="/Random">Feeling Adventurous?</a>
+                    </li>
+                    
                 </ul>
 
                 <div class="d-flex align-items-center" data-th-unless="${#strings.isEmpty(username1)}">
@@ -37,14 +41,16 @@
         </div>
     </nav>
 
-    <div class="container my-3 bg-light border" data-th-unless="${#strings.isEmpty(username1)}" >
+    <div class="container my-3 " data-th-unless="${#strings.isEmpty(username1)}" >
         <form method="POST" data-th-object="${beerSearchForm}" >
             <input type="hidden" name="username" data-th-value="${username1}">
-            <table class="table table-sm table-borderless">
+            <table class="padding-table-columns table table-borderless ">
                 <thead>
                     <tr>
                     <th scope="col" class="p-0"><label class="form-label m-0" >Food Pairing</label></th>
+                    <th scope="col" class="p-0 m-0"><lable class="form-label"></lable></th>
                     <th scope="col" class="p-0"><label class="form-label m-0" >ABV(%)</label></th>
+                    <th scope="col" class="p-0 m-0"><lable class="form-label"></lable></th>
                     <th scope="col" class="p-0"><label class="form-label m-0" >IBU</label></th>
                     
                     </tr>
@@ -60,9 +66,11 @@
 								data-th-errors="*{food}" data-th-errorclass="error"></span>
                         <div class="form-text">Eg. Chicken</div>
 
-
-
                         </td>
+
+                        <td class="p-0">
+                            <text>&nbsp;<text>
+                            </td>
 
                         <td class="p-0">
                         <text>Min:<input type="number" step="1" class="form-control" data-th-field="*{ABVmin}"></text>
@@ -71,6 +79,9 @@
                             data-th-errors="*{ABVmin}" data-th-errorclass="error">
                             </div>
                         </td>
+                        <td class=" p-0 m-0">
+                            <text>&nbsp;<text>
+                            </td>
 
                         <td class="p-0">
                         <text>Min:<input type="number" min="0" class="form-control" data-th-field="*{IBUmin}"></text>
@@ -82,6 +93,9 @@
 
                     <tr>
                         <td class = "p-0">&nbsp;</td>
+                        <td class="p-0">
+                            <text>&nbsp;<text>
+                            </td>
                         <td class = "p-0">
                             <text>Max:<input type="number" step="any" min="0" class="form-control" data-th-field="*{ABVmax}"></text>
                         
@@ -89,6 +103,10 @@
                             data-th-errors="*{ABVmax}" data-th-errorclass="error">
                             </div>
                         <div class="form-text">Ranges from 0.5-55</div>
+                        </td>
+
+                        <td class="p-0 m-0">
+                            <text>&nbsp;<text>
                         </td>
 
                         <td class="p-0">
