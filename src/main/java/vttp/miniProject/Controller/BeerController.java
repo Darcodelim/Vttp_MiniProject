@@ -212,23 +212,6 @@ public class BeerController {
 
    }
 
-   // @PostMapping(path={"/To_do_list_update"})
-   // public String postToDoList(@ModelAttribute("Beer") Beer beers,Model model,HttpSession sess, @RequestBody MultiValueMap<String,String> beerRepoForm)
-   // {
-   //    //When posting, Id and the name of the beer would be added to the BeerRepo List
-
-      
-   //    //Have to check whether it require another Session setAttribute to update the page
-   //    String ids = "";
-   //    ids = beerListRepo.stream().map(i->i.getId()).collect(Collectors.joining("|"));
-   //    List<Beer> beerList = beerSvc.getBeer(null, null, null, null, null, null, null, null, ids);
-   //    model.addAttribute("beerList", beerList);
-
-      
-
-   //    return "ToDoList";
-
-   // }
 
    @PostMapping(path={"/Beer"})
    public String getBeer(@RequestBody MultiValueMap<String,String> body, Model model) {

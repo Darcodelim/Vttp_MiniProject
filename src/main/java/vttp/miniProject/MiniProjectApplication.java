@@ -53,7 +53,8 @@ public class MiniProjectApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args)
-	 {	SetOperations<String,String> Set = template.opsForSet();
+	 {	
+		// SetOperations<String,String> Set = template.opsForSet();
 	// 	Set.add("Darien", "1,Buzz");
 	// 	String id = "1";
     //   	String name = "Buzz";
